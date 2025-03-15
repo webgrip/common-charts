@@ -23,7 +23,8 @@
       {
         "assets": [
           "CHANGELOG.md",
-          "composer.json"
+          "composer.json",
+          "ops/helm/common-helpers/Chart.yaml"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]"
       }
