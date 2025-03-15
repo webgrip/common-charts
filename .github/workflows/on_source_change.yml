@@ -40,6 +40,7 @@ jobs:
   debug:
     name: "Debug"
     runs-on: arc-runner-set
+    needs: [ semantic-release ]
     if: >
       always()
       && needs.semantic-release.result == 'success'
