@@ -18,6 +18,6 @@ jobs:
         with:
           version: v3.17.0
       - run: |
-          helm lint ./charts/my-chart
-          helm template ./charts/my-chart
-          helm template ./charts/my-chart | kubeval --ignore-missing-schemas
+          helm lint ${{ inputs.path }}
+          helm template ${{ inputs.path }}
+          helm template ${{ inputs.path }} | kubeval --ignore-missing-schemas
