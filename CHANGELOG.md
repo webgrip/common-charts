@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/webgrip/common-charts/compare/1.0.2...1.0.3) (2025-03-15)
+
+
+### Bug Fixes
+
+* debug ([aad6568](https://github.com/webgrip/common-charts/commit/aad656824aada3c4590f9a069f3869cb56a6d166))
+
 ## [1.0.2](https://github.com/webgrip/common-charts/compare/1.0.1...1.0.2) (2025-03-15)
 
 
