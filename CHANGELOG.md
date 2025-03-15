@@ -1,3 +1,10 @@
+## [1.0.13](https://github.com/webgrip/common-charts/compare/1.0.12...1.0.13) (2025-03-15)
+
+
+### Bug Fixes
+
+* Push to correct registry ([d8ce384](https://github.com/webgrip/common-charts/commit/d8ce384931e3130f38643375823830ea1ae85c06))
+
 ## [1.0.12](https://github.com/webgrip/common-charts/compare/1.0.11...1.0.12) (2025-03-15)
 
 
