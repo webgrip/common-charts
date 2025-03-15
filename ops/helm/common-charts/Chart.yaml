@@ -1,0 +1,6 @@
+apiVersion: v2
+name: common-helpers
+description: A library chart that provides shared helper templates
+type: library
+version: 1.0.0    # <-- Keep this updated when you change the chart
+appVersion: "1.0"

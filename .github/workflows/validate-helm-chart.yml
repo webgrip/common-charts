@@ -1,0 +1,22 @@
+name: '[Call] Validate Helm Chart'
+
+on:
+  workflow_call:
+    inputs:
+      path:
+        description: 'Path to the Helm chart you wish to validate'
+        type: string
+        required: true
+
+jobs:
+  validate-helm-chart:
+    name: 'Validate Helm Chart'
+    runs-on: arc-runner-set
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Validate Helm Chart'
+        run: |
+          helm lint ./charts/my-chart
+          helm template ./charts/my-chart
+          helm template ./charts/my-chart | kubeval --ignore-missing-schemas
+

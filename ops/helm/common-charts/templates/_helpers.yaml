@@ -1,0 +1,120 @@
+{{/*
+Expand the name of the chart.
+If .Values.nameOverride is set, use it. Otherwise, use .Chart.Name.
+Truncate it to 63 characters (per DNS spec), and remove any trailing '-'.
+*/}}
+{{- define "chart.name" -}}
+{{- $name := default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- if and (hasKey .Values "useHashSuffix") .Values.useHashSuffix (gt (len $name) 58) }}
+{{- /* If name is really long, we can append a 5-char hash to avoid collisions */ -}}
+{{- printf "%s-%s" (slice $name 0 58) (include "chart.hash" $name) | trunc 63 | trimSuffix "-" -}}
+{{- else }}
+{{- $name -}}
+{{- end -}}
+{{- end }}
+
+
+{{/*
+Helper to produce a short, stable hash from a string.
+This allows us to keep name uniqueness while truncating long names.
+*/}}
+{{- define "chart.hash" -}}
+{{- $hashed := (sha256sum .) -}}
+{{- slice $hashed 0 5 -}}
+{{- end }}
+
+
+{{/*
+Create a default fully qualified app name (a "fullname").
+1) If .Values.fullnameOverride is set, we use that directly (truncate to 63).
+2) Otherwise, we combine the Release Name + chart.name.
+3) If the Release Name == chart.name, just use that alone.
+We apply the same truncation logic & optional hashed suffix.
+*/}}
+{{- define "chart.fullname" -}}
+{{- if .Values.fullnameOverride -}}
+{{- $override := .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- if and (hasKey .Values "useHashSuffix") .Values.useHashSuffix (gt (len $override) 58) }}
+{{- printf "%s-%s" (slice $override 0 58) (include "chart.hash" $override) | trunc 63 | trimSuffix "-" -}}
+{{- else }}
+{{- $override -}}
+{{- end }}
+{{- else -}}
+{{- $chartName := include "chart.name" . -}}
+{{- if eq .Release.Name $chartName -}}
+{{- $chartName -}}
+{{- else -}}
+{{- $combined := printf "%s-%s" .Release.Name $chartName -}}
+{{- if and (hasKey .Values "useHashSuffix") .Values.useHashSuffix (gt (len $combined) 58) }}
+{{- printf "%s-%s" (slice $combined 0 58) (include "chart.hash" $combined) | trunc 63 | trimSuffix "-" -}}
+{{- else }}
+{{- $combined | trunc 63 | trimSuffix "-" -}}
+{{- end }}
+{{- end -}}
+{{- end -}}
+{{- end }}
+
+
+{{/*
+Create chart name and version, used by the label `helm.sh/chart`.
+We also replace '+' with '_' (SemVer metadata can break labels).
+Truncated to 63 chars (DNS limit) in case version is huge.
+*/}}
+{{- define "chart.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end }}
+
+
+{{/*
+Recommended "standard" labels from Helm best practices:
+https://helm.sh/docs/chart_best_practices/labels/
+We also add the recommended "managed-by" and "app.kubernetes.io/version".
+Feel free to add or remove as needed, or move some of these to annotations.
+*/}}
+{{- define "chart.commonLabels" -}}
+app.kubernetes.io/part-of: {{ include "chart.fullname" . }}
+app.kubernetes.io/created-by: "Helm"
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+helm.sh/chart: {{ include "chart.chart" . }}
+{{- end }}
+
+
+{{/*
+Selector labels:
+These are typically used in metadata.labels for selectors,
+so we do NOT usually put them in .spec.selector.matchLabels once set.
+Keep them stable, especially for Deployments/StatefulSets,
+because changing them can trigger rollouts.
+*/}}
+{{- define "chart.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+
+{{/*
+Complete set of labels to attach to most workloads:
+1. Common labels from above.
+2. Selector labels used by K8s for matching.
+You might want to choose carefully where to place these
+so you don't overlap or accidentally break selectors.
+*/}}
+{{- define "chart.labels" -}}
+{{ include "chart.selectorLabels" . }}
+{{ include "chart.commonLabels" . }}
+{{- end }}
+
+
+{{/*
+Common Annotations – you can put things like:
+"meta.helm.sh/release-name" and "meta.helm.sh/release-namespace"
+Also recommended:
+"kubectl.kubernetes.io/last-applied-configuration" for debug (though Helm sets this automatically).
+*/}}
+{{- define "chart.commonAnnotations" -}}
+meta.helm.sh/release-name: {{ .Release.Name }}
+meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+{{- end }}
