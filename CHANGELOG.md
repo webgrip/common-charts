@@ -1,3 +1,10 @@
+## [1.0.12](https://github.com/webgrip/common-charts/compare/1.0.11...1.0.12) (2025-03-15)
+
+
+### Bug Fixes
+
+* Let helm push get the tag by itself ([0fb7497](https://github.com/webgrip/common-charts/commit/0fb749707a2d6e07cea3539cb7f152712ffa241a))
+
 ## [1.0.11](https://github.com/webgrip/common-charts/compare/1.0.10...1.0.11) (2025-03-15)
 
 
