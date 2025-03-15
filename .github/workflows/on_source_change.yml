@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'ops/helm/**'
-      - './.github/workflows/on_source_change.yml'
+      - '.github/workflows/on_source_change.yml'
 
 concurrency:
     group: push-${{ github.branch }}
