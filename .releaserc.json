@@ -13,7 +13,7 @@
       }
     ],
     [
-      "@semantic-release-helm3",
+      "semantic-release-helm3",
       {
         "chartPath": "./ops/helm/common-helpers"
       }
