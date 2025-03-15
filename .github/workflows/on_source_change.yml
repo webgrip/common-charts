@@ -21,7 +21,7 @@ jobs:
     name: "Validate"
     needs: [ determine-changed-charts ]
     if: needs.determine-changed-charts.outputs.matrix != '[]'
-    uses: webgrip/workflows/.github/workflows/validate-helm-chart.yml
+    uses: webgrip/workflows/.github/workflows/validate-helm-chart.yml@main
     with:
       path: ${{ needs.determine-changed-charts.outputs.changed-paths[0] }}
 
