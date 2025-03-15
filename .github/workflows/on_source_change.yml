@@ -1,12 +1,12 @@
 name: "[Workflow] On Source Change"
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - 'ops/helm/**'
-      - '.github/workflows/on_source_change.yml'
 
 concurrency:
     group: push-${{ github.branch }}
