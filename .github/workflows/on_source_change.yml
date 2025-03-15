@@ -25,7 +25,7 @@ jobs:
     uses: ./.github/workflows/validate-helm-chart.yml
     with:
       path: ${{ needs.determine-changed-charts.outputs.matrix[0] }}
-#
+
 #  release:
 #    name: 'Release'
 #    uses: webgrip/workflows/.github/workflows/semantic-release.yml@main
