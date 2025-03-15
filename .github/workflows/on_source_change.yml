@@ -21,10 +21,23 @@ jobs:
     name: "Validate"
     needs: [ determine-changed-charts ]
     if: needs.determine-changed-charts.outputs.matrix != '[]'
-    uses: webgrip/workflows/.github/workflows/validate-helm-charts.yml@main
+    uses: webgrip/workflows/.github/workflows/helm-charts-validate.yml@main
     with:
       paths: ${{ needs.determine-changed-charts.outputs.matrix }}
 
-#  release:
-#    name: 'Release'
-#    uses: webgrip/workflows/.github/workflows/semantic-release.yml@main
+  semantic-release:
+    name: "Semantic Release"
+    needs: [ validate ]
+    if: needs.validate.result == 'success'
+    uses: webgrip/workflows/.github/workflows/semantic-release.yml@main
+
+  push-charts:
+    name: "Push"
+    if: >
+      always()
+      && needs.semantic-release.result == 'success'
+    needs: [ determine-changed-charts, semantic-release ]
+    uses: webgrip/workflows/.github/workflows/helm-charts-push.yml@main
+    with:
+        paths: ${{ needs.determine-changed-charts.outputs.matrix }}
+        version: ${{ needs.semantic-release.outputs.version }}
