@@ -21,4 +21,3 @@ jobs:
           helm lint ./charts/my-chart
           helm template ./charts/my-chart
           helm template ./charts/my-chart | kubeval --ignore-missing-schemas
-
