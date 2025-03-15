@@ -36,6 +36,7 @@ jobs:
     if: >
       always()
       && needs.semantic-release.result == 'success'
+      && needs.semantic-release.outputs.version != ''
     needs: [ determine-changed-charts, semantic-release ]
     uses: webgrip/workflows/.github/workflows/helm-charts-push.yml@main
     with:
