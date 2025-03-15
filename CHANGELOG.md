@@ -1,3 +1,10 @@
+## [1.0.11](https://github.com/webgrip/common-charts/compare/1.0.10...1.0.11) (2025-03-15)
+
+
+### Bug Fixes
+
+* Make sure we're on the versioned branch when the package gets built and pushed ([f5277e8](https://github.com/webgrip/common-charts/commit/f5277e8f7881390e0a8b3b3209c4e771cc1d265a))
+
 ## [1.0.10](https://github.com/webgrip/common-charts/compare/1.0.9...1.0.10) (2025-03-15)
 
 
