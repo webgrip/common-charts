@@ -1,3 +1,11 @@
+## [1.0.4](https://github.com/webgrip/common-charts/compare/1.0.3...1.0.4) (2025-03-15)
+
+
+### Bug Fixes
+
+* Set chart as well ([130883f](https://github.com/webgrip/common-charts/commit/130883f047335d938e28c7d0033a2134b80ee972))
+* Set chart as well ([088202f](https://github.com/webgrip/common-charts/commit/088202f5ba5ba563a5df347aeecdb3ef7401cd2f))
+
 ## [1.0.3](https://github.com/webgrip/common-charts/compare/1.0.2...1.0.3) (2025-03-15)
 
 
