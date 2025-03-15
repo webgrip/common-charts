@@ -5,25 +5,31 @@ on:
     branches:
       - main
     paths:
-      - 'ops/helm/**'
+      - 'ops/helm/common-helpers/**'
 
 concurrency:
     group: push-${{ github.branch }}
 
 jobs:
-  determine-changed-charts:
-    name: "Changed Charts"
-    uses: webgrip/workflows/.github/workflows/determine-changed-directories.yml@main
-    with:
-      inside-dir: 'ops/helm'
+#  determine-changed-charts:
+#    name: "Changed Charts"
+#    uses: webgrip/workflows/.github/workflows/determine-changed-directories.yml@main
+#    with:
+#      inside-dir: 'ops/helm'
 
   validate:
     name: "Validate"
-    needs: [ determine-changed-charts ]
-    if: needs.determine-changed-charts.outputs.matrix != '[]'
-    uses: webgrip/workflows/.github/workflows/helm-charts-validate.yml@main
+    uses: webgrip/workflows/.github/workflows/helm-chart-validate.yml@main
     with:
-      paths: ${{ needs.determine-changed-charts.outputs.matrix }}
+      path: 'ops/helm/common-helpers'
+
+#  validate-multiple-charts:
+#    name: "Validate"
+#    needs: [ determine-changed-charts ]
+#    if: needs.determine-changed-charts.outputs.matrix != '[]'
+#    uses: webgrip/workflows/.github/workflows/helm-charts-validate.yml@main
+#    with:
+#      paths: ${{ needs.determine-changed-charts.outputs.matrix }}
 
   semantic-release:
     name: "Semantic Release"
@@ -37,8 +43,20 @@ jobs:
       always()
       && needs.semantic-release.result == 'success'
       && needs.semantic-release.outputs.version != ''
-    needs: [ determine-changed-charts, semantic-release ]
-    uses: webgrip/workflows/.github/workflows/helm-charts-push.yml@main
+    needs: [ semantic-release ]
+    uses: webgrip/workflows/.github/workflows/helm-chart-push.yml@main
     with:
-        paths: ${{ needs.determine-changed-charts.outputs.matrix }}
+        path: 'ops/helm/common-helpers'
+        name: 'common-helpers'
         version: ${{ needs.semantic-release.outputs.version }}
+
+#  push-multiple-charts:
+#    name: "Push"
+#    if: >
+#      always()
+#      && needs.semantic-release.result == 'success'
+#    needs: [ determine-changed-charts, semantic-release ]
+#    uses: webgrip/workflows/.github/workflows/helm-charts-push.yml@main
+#    with:
+#        paths: ${{ needs.determine-changed-charts.outputs.matrix }}
+#        version: ${{ needs.semantic-release.outputs.version }}
