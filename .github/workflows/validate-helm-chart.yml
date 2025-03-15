@@ -14,8 +14,10 @@ jobs:
     runs-on: arc-runner-set
     steps:
       - uses: actions/checkout@v4
-      - name: 'Validate Helm Chart'
-        run: |
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.17.0
+      - run: |
           helm lint ./charts/my-chart
           helm template ./charts/my-chart
           helm template ./charts/my-chart | kubeval --ignore-missing-schemas
