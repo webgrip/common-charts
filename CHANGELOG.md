@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/webgrip/common-charts/compare/1.0.6...1.0.7) (2025-03-15)
+
+
+### Bug Fixes
+
+* Push to oci:// ([4c8a587](https://github.com/webgrip/common-charts/commit/4c8a5874195c65194935f041f2a3c6af51991feb))
+
 ## [1.0.6](https://github.com/webgrip/common-charts/compare/1.0.5...1.0.6) (2025-03-15)
 
 
