@@ -22,7 +22,7 @@ jobs:
     name: "Validate"
     needs: [ determine-changed-charts ]
     if: needs.determine-changed-charts.outputs.matrix != '[]'
-    uses: ./.github/workflows/validate-helm-templates.yml
+    uses: ./.github/workflows/validate-helm-chart.yml
     with:
       path: ${{ needs.determine-changed-charts.outputs.matrix[0] }}
 #
