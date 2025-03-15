@@ -14,7 +14,7 @@ concurrency:
 jobs:
   determine-changed-charts:
     name: "Secrets"
-    uses: vendic/workflows/.github/workflows/determine-changed-directories.yml@main
+    uses: webgrip/workflows/.github/workflows/determine-changed-directories.yml@main
     with:
       inside-dir: 'ops/helm'
 
