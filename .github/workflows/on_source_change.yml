@@ -37,17 +37,6 @@ jobs:
     if: needs.validate.result == 'success'
     uses: webgrip/workflows/.github/workflows/semantic-release.yml@main
 
-  debug:
-    name: "Debug"
-    runs-on: arc-runner-set
-    needs: [ semantic-release ]
-    if: >
-      always()
-      && needs.semantic-release.result == 'success'
-    steps:
-      - run: |
-          echo "Version: ${{ needs.semantic-release.outputs.version }}"
-
   push-charts:
     name: "Push"
     if: >
