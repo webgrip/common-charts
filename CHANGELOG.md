@@ -1,3 +1,11 @@
+## [1.0.9](https://github.com/webgrip/common-charts/compare/1.0.8...1.0.9) (2025-03-15)
+
+
+### Bug Fixes
+
+* Deploy ([54fcdd1](https://github.com/webgrip/common-charts/commit/54fcdd17711447768ae15da5131b61c7e78f6e94))
+* set tgz name ([71e1b44](https://github.com/webgrip/common-charts/commit/71e1b4489d01e44c8a7e43f9f2ad43d015437ef2))
+
 ## [1.0.8](https://github.com/webgrip/common-charts/compare/1.0.7...1.0.8) (2025-03-15)
 
 
