@@ -28,13 +28,28 @@ jobs:
     with:
       path: 'ops/helm/common-helpers'
 
+  # Normal job + step-level composite — NOT the job-level semantic-release.yml reusable: this repo
+  # was its first Forgejo consumer and both flattened jobs failed (matches the known
+  # workflow_call.secrets parser quirk); every proven release (telemetry, renovate-config, infra)
+  # uses this composite shape.
   release:
     name: "Semantic Release"
     needs: [ validate ]
     if: needs.validate.result == 'success'
-    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@main
-    secrets:
-      FORGEJO_TOKEN: ${{ secrets.WEBGRIP_CI_TOKEN }}
+    runs-on: docker
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      statuses: write
+    outputs:
+      version: ${{ steps.semrel.outputs.version }}
+    steps:
+      - name: Semantic Release
+        id: semrel
+        uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/composite-actions/semantic-release@main
+        with:
+          token: ${{ secrets.WEBGRIP_CI_TOKEN }}
 
   push-charts:
     name: "Push"
