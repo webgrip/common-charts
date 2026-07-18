@@ -1,0 +1,54 @@
+name: "[Workflow] On Source Change"
+
+# Forgejo mirror of .github/workflows/on_source_change.yml. Adaptations (forgejo-port-workflows):
+#   - reusables resolve against the webgrip/workflows .forgejo/ tree
+#   - the `semantic-release` caller job is renamed `release`: Forgejo v15 flattens a reusable's inner
+#     jobs into the caller graph, so a caller job id equal to the reusable's inner job id
+#     (`semantic-release`) yields a plan with no dependency-free job and Forgejo rejects it
+#   - token is WEBGRIP_CI_TOKEN, NOT secrets.FORGEJO_TOKEN: Forgejo reserves the
+#     FORGEJO_/GITHUB_/GITEA_ prefixes, so a stored secret of that name cannot exist (resolves empty)
+#   - chart push authenticates to Harbor with the provisioned HARBOR_ROBOT_* org secrets
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ops/helm/common-helpers/**'
+      - '.forgejo/workflows/on_source_change.yml'
+      - '.releaserc.js'
+
+concurrency:
+  group: push-${{ github.ref_name }}
+
+jobs:
+  validate:
+    name: "Validate"
+    uses: webgrip/workflows/.forgejo/workflows/helm-chart-validate.yml@main
+    with:
+      path: 'ops/helm/common-helpers'
+
+  release:
+    name: "Semantic Release"
+    needs: [ validate ]
+    if: needs.validate.result == 'success'
+    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@main
+    secrets:
+      FORGEJO_TOKEN: ${{ secrets.WEBGRIP_CI_TOKEN }}
+
+  push-charts:
+    name: "Push"
+    if: >
+      always()
+      && needs.release.result == 'success'
+      && needs.release.outputs.version != ''
+    needs: [ release ]
+    uses: webgrip/workflows/.forgejo/workflows/helm-chart-push.yml@main
+    with:
+      registry: 'harbor.webgrip.dev'
+      path: 'ops/helm/common-helpers'
+      name: 'common-helpers'
+      version: ${{ needs.release.outputs.version }}
+    secrets:
+      REGISTRY_USERNAME: ${{ secrets.HARBOR_ROBOT_USER }}
+      REGISTRY_TOKEN: ${{ secrets.HARBOR_ROBOT_TOKEN }}
