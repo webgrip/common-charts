@@ -16,7 +16,7 @@ on:
     paths:
       - 'ops/helm/common-helpers/**'
       - '.forgejo/workflows/on_source_change.yml'
-      - '.releaserc.js'
+      - '.releaserc.cjs'
 
 concurrency:
   group: push-${{ github.ref_name }}
