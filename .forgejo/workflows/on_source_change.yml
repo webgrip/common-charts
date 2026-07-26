@@ -61,6 +61,9 @@ jobs:
     needs: [ release ]
     uses: webgrip/workflows/.forgejo/workflows/helm-chart-push.yml@main
     with:
+      # Operative gate: the caller if: above is dropped by Forgejo v15 flattening (run 5 pushed
+      # with an empty version). needs.* survives flatten-time evaluation; github.* does not.
+      enabled: ${{ needs.release.outputs.version != '' }}
       registry: 'harbor.webgrip.dev'
       path: 'ops/helm/common-helpers'
       name: 'common-helpers'
