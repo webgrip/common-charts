@@ -1,3 +1,15 @@
+## [1.0.14](https://forgejo.webgrip.dev/webgrip/common-charts/compare/v1.0.13...v1.0.14) (2026-07-26)
+
+### Fixed
+
+* **ci:** release via the composite action, not the job-level reusable ([8bfe358](https://forgejo.webgrip.dev/webgrip/common-charts/commit/8bfe358c8207c7fb946f668744d6e4612b78596b))
+
+### CI
+
+* adopt @webgrip/semantic-release-config ([7b29cfc](https://forgejo.webgrip.dev/webgrip/common-charts/commit/7b29cfcf8210a8f3293db6c6546856be5c3fc4e6))
+* adopt Forgejo Actions CI (.github -> .forgejo) ([d0a2d2d](https://forgejo.webgrip.dev/webgrip/common-charts/commit/d0a2d2dabd21445783fc3f56a28946af6204c8a0))
+* retrigger release train (re-run scheduler wedge; composite now has yq + prune fix) ([b6fde7a](https://forgejo.webgrip.dev/webgrip/common-charts/commit/b6fde7a92f2fb9ba9742b36aa73b550f6273fa5e))
+
 ## [1.0.13](https://github.com/webgrip/common-charts/compare/1.0.12...1.0.13) (2025-03-15)
 
 
