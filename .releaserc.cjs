@@ -11,3 +11,6 @@ module.exports = makeConfig({
   chartPath: 'ops/helm/common-helpers',
   prepareCmd: 'yq -i \'.appVersion = "${nextRelease.version}"\' ops/helm/common-helpers/Chart.yaml',
 });
+
+// re-cut marker (2026-07-26): fresh run after the wedged re-run — the prune fix + yq
+// install landed in the composite; this line re-enters the release train (infra precedent).
