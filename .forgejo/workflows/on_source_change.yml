@@ -44,6 +44,7 @@ jobs:
       statuses: write
     outputs:
       version: ${{ steps.semrel.outputs.version }}
+      tag: ${{ steps.semrel.outputs.tag }}
     steps:
       - name: Semantic Release
         id: semrel
@@ -64,6 +65,9 @@ jobs:
       path: 'ops/helm/common-helpers'
       name: 'common-helpers'
       version: ${{ needs.release.outputs.version }}
+      # Check out the TAGGED commit: the tag line is v-prefixed (v1.0.14) while `version` is bare
+      # semver — the ref fallback (`ref || version`) fetched refs/tags/1.0.14 and found nothing.
+      ref: ${{ needs.release.outputs.tag }}
     secrets:
       REGISTRY_USERNAME: ${{ secrets.HARBOR_ROBOT_USER }}
       REGISTRY_TOKEN: ${{ secrets.HARBOR_ROBOT_TOKEN }}
