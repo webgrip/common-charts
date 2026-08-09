@@ -1,3 +1,9 @@
+## <small>1.0.15 (2026-08-09)</small>
+
+* fix(ci): pin webgrip/workflows to v1.0.0 instead of @main ([18e985d](https://forgejo.webgrip.dev/webgrip/common-charts/commit/18e985d))
+* ci: check the chart push out at the release tag, not the bare version ([24ea438](https://forgejo.webgrip.dev/webgrip/common-charts/commit/24ea438))
+* ci: flatten-safe enabled gate on the chart push (empty-version runs skipped) ([4638fa8](https://forgejo.webgrip.dev/webgrip/common-charts/commit/4638fa8))
+
 ## [1.0.14](https://forgejo.webgrip.dev/webgrip/common-charts/compare/v1.0.13...v1.0.14) (2026-07-26)
 
 ### Fixed
