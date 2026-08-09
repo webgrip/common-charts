@@ -24,7 +24,7 @@ concurrency:
 jobs:
   validate:
     name: "Validate"
-    uses: webgrip/workflows/.forgejo/workflows/helm-chart-validate.yml@main
+    uses: webgrip/workflows/.forgejo/workflows/helm-chart-validate.yml@v1.0.0
     with:
       path: 'ops/helm/common-helpers'
 
@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Semantic Release
         id: semrel
-        uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/composite-actions/semantic-release@main
+        uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/composite-actions/semantic-release@v1.0.0
         with:
           token: ${{ secrets.WEBGRIP_CI_TOKEN }}
 
@@ -59,7 +59,7 @@ jobs:
       && needs.release.result == 'success'
       && needs.release.outputs.version != ''
     needs: [ release ]
-    uses: webgrip/workflows/.forgejo/workflows/helm-chart-push.yml@main
+    uses: webgrip/workflows/.forgejo/workflows/helm-chart-push.yml@v1.0.0
     with:
       # Operative gate: the caller if: above is dropped by Forgejo v15 flattening (run 5 pushed
       # with an empty version). needs.* survives flatten-time evaluation; github.* does not.
